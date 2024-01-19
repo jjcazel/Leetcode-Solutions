@@ -1,4 +1,5 @@
 class Solution:
+# O(n) time and O(n) space where n is the length of the nums list 
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         differences_dict = {} # {3: 0}
 
