@@ -1,3 +1,4 @@
+#O(n) time and O(1) space where n is the length of the input string
 class Solution:
     def isPalindrome(self, s: str) -> bool:
         start, end = 0, len(s) - 1
