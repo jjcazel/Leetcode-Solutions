@@ -1,7 +1,5 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t):
-            return False
         hashMatch = {} # {a: 1, t: 1, r: 1}
 
         for idx in range(len(s)):
