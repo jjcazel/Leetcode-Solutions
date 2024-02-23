@@ -5,5 +5,3 @@ class Solution:
             if num in dupsSet:
                 return True
             dupsSet.add(num)
-
-        return False
