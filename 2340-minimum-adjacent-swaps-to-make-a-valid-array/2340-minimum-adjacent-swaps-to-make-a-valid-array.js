@@ -5,7 +5,6 @@
 
 // O(n) time and O(1) space
 function minimumSwaps(nums) {
-  if (nums.length < 2) return 0;
   const maxNum = Math.max(...nums);
   const minNum = Math.min(...nums);
 
