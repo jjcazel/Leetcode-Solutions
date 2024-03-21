@@ -5,7 +5,7 @@
  * @return {string[]}
  */
 
-
+//O(nlogm+u⋅m 3) and O(n) space, with n total visits, u unique users, and m max visits per user,
 function mostVisitedPattern(username, timestamp, website) {
   let userVisits = {}; /*{
                           joe: [[ 1, 'home' ], [ 2, 'about' ], [ 3, 'career' ]],
