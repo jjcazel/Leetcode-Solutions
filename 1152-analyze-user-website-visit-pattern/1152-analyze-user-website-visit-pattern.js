@@ -7,11 +7,7 @@
 
 //O(nlogm+u⋅m 3) and O(n) space, with n total visits, u unique users, and m max visits per user,
 function mostVisitedPattern(username, timestamp, website) {
-  let userVisits = {}; /*{
-                          joe: [[ 1, 'home' ], [ 2, 'about' ], [ 3, 'career' ]],
-                          james: [[ 4, 'home' ], [ 5, 'cart' ], [ 6, 'maps' ], [ 7, 'home' ]],
-                          mary: [[ 8, 'home' ], [ 9, 'about' ], [ 10, 'career' ]]
-                        }*/
+  let userVisits = {}; 
 
   for (let i = 0; i < username.length; i++) {
     if (!userVisits[username[i]]) {
