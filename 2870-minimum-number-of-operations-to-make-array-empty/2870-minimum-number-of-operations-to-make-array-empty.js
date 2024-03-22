@@ -7,40 +7,41 @@
 //https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/description/ (similar)
 
 function minOperations(nums) {
-  const frequenciesMap = {};
+  const freqMap = {}
 
   for (const num of nums) {
-    if (!frequenciesMap.hasOwnProperty(num)) {
-      frequenciesMap[num] = 0;
+    if(!freqMap.hasOwnProperty(num)) {
+      freqMap[num] = 0;
     }
-    frequenciesMap[num]++;
+    freqMap[num]++;
   }
 
-  const frequenciesArr = Object.values(frequenciesMap);
-  let numOperations = 0;
+  const freqArr = Object.values(freqMap);
+  let minOperations = 0;
 
-  for (const frequency of frequenciesArr) {
-    if (frequency === 1) return -1;
-    numOperations += calculateOptimalOperations(frequency);
+  for (const freq of freqArr) {
+    if (freq === 1) return -1;
+    minOperations += getNumOperations(freq);
   }
 
-  return numOperations;
+  return minOperations;
 };
 
-function calculateOptimalOperations(freq) {
+function getNumOperations(freq) {
   let operations = 0;
+
   while (freq > 0) {
     if (freq % 3 === 0) {
       operations += freq / 3;
-      break; // Directly divisible by 3, no further action needed.
+      break;
     } else if (freq % 3 === 1) {
-      // Opt to subtract one and add one operation, ensuring divisibility by 3 subsequently.
-      freq -= 4; // Remove 4 to divide by 2 twice, adjusting for optimal division.
-      operations += 2;
-    } else { // freq % 3 == 2
-      freq -= 2; // Remove 2 to make it divisible by 3.
-      operations += 1;
+      freq -= 4;
+      operations += 2
+    } else {
+      freq -= 2
+      operations += 1
     }
   }
+
   return operations;
 }
