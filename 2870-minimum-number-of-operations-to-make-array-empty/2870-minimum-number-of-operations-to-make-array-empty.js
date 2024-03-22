@@ -18,7 +18,7 @@ function minOperations(nums) {
   let numOperations = 0;
 
   for (const frequency of frequenciesArr) {
-    if (frequency === 1) return -1;
+    // if (frequency === 1) return -1;
     numOperations += calculateOptimalOperations(frequency);
   }
 
