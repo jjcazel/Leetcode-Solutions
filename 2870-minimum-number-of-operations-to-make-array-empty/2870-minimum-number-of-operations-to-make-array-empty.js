@@ -4,6 +4,8 @@
  */
 
 // O(n) time and O(n) space where n is the length of the input array
+//https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/description/ (similar)
+
 function minOperations(nums) {
   const frequenciesMap = {};
 
@@ -18,7 +20,7 @@ function minOperations(nums) {
   let numOperations = 0;
 
   for (const frequency of frequenciesArr) {
-    // if (frequency === 1) return -1;
+    if (frequency === 1) return -1;
     numOperations += calculateOptimalOperations(frequency);
   }
 
@@ -34,10 +36,10 @@ function calculateOptimalOperations(freq) {
     } else if (freq % 3 === 1) {
       // Opt to subtract one and add one operation, ensuring divisibility by 3 subsequently.
       freq -= 4; // Remove 4 to divide by 2 twice, adjusting for optimal division.
-      operations += 2; // Account for the removal operation and future division by 3.
+      operations += 2;
     } else { // freq % 3 == 2
       freq -= 2; // Remove 2 to make it divisible by 3.
-      operations += 1; // Account for this removal operation.
+      operations += 1;
     }
   }
   return operations;
