@@ -3,9 +3,9 @@
  * @return {number}
  */
 
-// O(n) time and O(1) space where n is the length of height array (input)
+// O(n) time and O(1) space where n is the length of the height array (input)
 function trap(height) {
-  let rainWater = 0; // 6
+  let rainWater = 0; 
   let [left, right] = [0, height.length - 1];
   let [maxLeft, maxRight] = [height[0], height[height.length - 1]];
 
@@ -13,7 +13,7 @@ function trap(height) {
     if (maxLeft < maxRight) {
       left++;
       maxLeft = Math.max(maxLeft, height[left]);
-      rainWater += maxLeft - height[left]
+      rainWater += maxLeft - height[left];
     } else {
       right--;
       maxRight = Math.max(maxRight, height[right]);
