@@ -1,62 +1,69 @@
-class LRUCache {
-    constructor(capacity) {
-        this.capacity = capacity;
-        this.map = new Map();
+function LRUCache(capacity) {
+    this.capacity = capacity;
+    this.map = new Map(); // Use Map for O(1) access and maintaining order
 
-        this.head = {};
-        this.tail = {};
+    this.head = {};
+    this.tail = {};
+    // Connect dummy head and tail
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+}
 
-        this.head.next = this.tail;
-        this.tail.prev = this.head;
-    }
+// Adds a node right after the dummy head
+LRUCache.prototype.addNode = function(node) {
+    node.prev = this.head;
+    node.next = this.head.next;
+    this.head.next.prev = node;
+    this.head.next = node;
+}
 
-    removeLastUsed () {
-        const [ key, next, prev ]  = [ this.head.next.key, this.head.next.next, this.head ];
+// Removes a specific node
+LRUCache.prototype.removeNode = function(node) {
+    let prev = node.prev;
+    let next = node.next;
+    prev.next = next;
+    next.prev = prev;
+}
 
-        this.map.delete(key);
-        this.head.next = next;
-        this.head.next.prev = prev;
-    }
+// Moves a node to the front (most recently used)
+LRUCache.prototype.moveToFront = function(node) {
+    this.removeNode(node);
+    this.addNode(node);
+}
 
-    put (key, value) {
-        const hasKey = this.get(key) !== -1;
-        const isAtCapacity = this.map.size === this.capacity;
-        
-        if (hasKey) return (this.tail.prev.value = value);
-        if (isAtCapacity) this.removeLastUsed();
+// Removes the least recently used (LRU) item
+LRUCache.prototype.popTail = function() {
+    let lru = this.tail.prev;
+    this.removeNode(lru);
+    return lru;
+}
 
-        const node = { key, value };
-        this.map.set(key, node);
+LRUCache.prototype.get = function(key) {
+    if (!this.map.has(key)) return -1;
+    let node = this.map.get(key);
+    this.moveToFront(node); // Mark as most recently used
+    return node.value;
+}
+
+LRUCache.prototype.put = function(key, value) {
+    if (this.map.has(key)) {
+        let node = this.map.get(key);
+        node.value = value;
         this.moveToFront(node);
-    }
-
-    moveToFront (node) {
-        const [ prev, next ] = [ this.tail.prev, this.tail ];
-
-        this.tail.prev.next = node;
-        this.connectNode(node, { prev, next });
-        this.tail.prev = node;
-    }
-
-    connectNode (node, top) {
-        node.prev = top.prev;
-        node.next = top.next;
-    }
-
-    get (key) {
-        const hasKey = this.map.has(key);
-        if (!hasKey) return -1;
-
-        const node = this.map.get(key);
-        
-        this.disconnectNode(node);
-        this.moveToFront(node);
-
-        return node.value;
-    }
-
-    disconnectNode (node) {
-        node.next.prev = node.prev;
-        node.prev.next = node.next;
+    } else {
+        let newNode = { key, value };
+        this.map.set(key, newNode);
+        this.addNode(newNode);
+        if (this.map.size > this.capacity) {
+            let lru = this.popTail(); // Remove LRU item
+            this.map.delete(lru.key);
+        }
     }
 }
+
+/** 
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = new LRUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
