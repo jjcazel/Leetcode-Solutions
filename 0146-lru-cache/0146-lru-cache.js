@@ -1,50 +1,62 @@
-/**
- * @param {number} capacity
- */
+class LRUCache {
+    constructor(capacity) {
+        this.capacity = capacity;
+        this.map = new Map();
 
-function LRUCache(capacity) {
-  this.capacity = capacity; // 2 
-  this.cache = {}; // {1: 1, 3: 3}
-  this.order = []; // [1, 3]
-};
+        this.head = {};
+        this.tail = {};
 
-/** 
- * @param {number} key
- * @return {number}
- */
-// O(n) time and O(n) space - can be optimized
-LRUCache.prototype.get = function (key) {
-  if (this.cache.hasOwnProperty(key)) {
-    const index = this.order.indexOf(key);
-    this.order.splice(index, 1);
-    this.order.push(key);
-    return this.cache[key];
-  } else {
-    return -1;
-  }
-};
+        this.head.next = this.tail;
+        this.tail.prev = this.head;
+    }
 
-/** 
- * @param {number} key 
- * @param {number} value
- * @return {void}
- */
-//O(n) time and O(n) space - can be optimized
-LRUCache.prototype.put = function (key, value) {
-  if (!this.cache.hasOwnProperty(key) && this.order.length === this.capacity) {
-    const lruKey = this.order.shift();
-    delete this.cache[lruKey];
-  } else if (this.cache.hasOwnProperty(key)) {
-    const index = this.order.indexOf(key);
-    this.order.splice(index, 1);
-  }
-  this.cache[key] = value;
-  this.order.push(key);
-};
+    removeLastUsed () {
+        const [ key, next, prev ]  = [ this.head.next.key, this.head.next.next, this.head ];
 
-/** 
- * Your LRUCache object will be instantiated and called as such:
- * var obj = new LRUCache(capacity)
- * var param_1 = obj.get(key)
- * obj.put(key,value)
- */
+        this.map.delete(key);
+        this.head.next = next;
+        this.head.next.prev = prev;
+    }
+
+    put (key, value) {
+        const hasKey = this.get(key) !== -1;
+        const isAtCapacity = this.map.size === this.capacity;
+        
+        if (hasKey) return (this.tail.prev.value = value);
+        if (isAtCapacity) this.removeLastUsed();
+
+        const node = { key, value };
+        this.map.set(key, node);
+        this.moveToFront(node);
+    }
+
+    moveToFront (node) {
+        const [ prev, next ] = [ this.tail.prev, this.tail ];
+
+        this.tail.prev.next = node;
+        this.connectNode(node, { prev, next });
+        this.tail.prev = node;
+    }
+
+    connectNode (node, top) {
+        node.prev = top.prev;
+        node.next = top.next;
+    }
+
+    get (key) {
+        const hasKey = this.map.has(key);
+        if (!hasKey) return -1;
+
+        const node = this.map.get(key);
+        
+        this.disconnectNode(node);
+        this.moveToFront(node);
+
+        return node.value;
+    }
+
+    disconnectNode (node) {
+        node.next.prev = node.prev;
+        node.prev.next = node.next;
+    }
+}
