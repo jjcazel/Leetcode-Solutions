@@ -2,6 +2,7 @@ function LRUCache(capacity) {
     this.capacity = capacity;
     this.map = new Map(); // Use Map for O(1) access and maintaining order
 
+    //dummy nodes
     this.head = {};
     this.tail = {};
     // Connect dummy head and tail
