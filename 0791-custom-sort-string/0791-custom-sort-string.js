@@ -14,21 +14,16 @@ const customSortString = (order, s) => {
   }
 
   for (let i = 0; i < order.length; i++) {
-    if (sCharCounts.hasOwnProperty(order[i])) {
-      sCharCounts[order[i]];
-      while (sCharCounts[order[i]] > 0) {
-        output.push(order[i]);
-        sCharCounts[order[i]]--;
-      }
+    while (sCharCounts[order[i]] > 0) {
+      output.push(order[i]);
+      sCharCounts[order[i]]--;
     }
   }
 
   for (const key in sCharCounts) {
-    if (sCharCounts[key] > 0) {
-      while (sCharCounts[key] > 0) {
-        output.push(key);
-        sCharCounts[key]--;
-      }
+    while (sCharCounts[key] > 0) {
+      output.push(key);
+      sCharCounts[key]--;
     }
   }
 
