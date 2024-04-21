@@ -1,5 +1,5 @@
 
-var Logger = function () {
+function Logger() {
     this.logTimeStamps = {};
 };
 
@@ -9,9 +9,7 @@ var Logger = function () {
  * @return {boolean}
  */
 Logger.prototype.shouldPrintMessage = function (timestamp, message) {
-    if (
-        this.logTimeStamps.hasOwnProperty(message) && timestamp < this.logTimeStamps[message] + 10
-    ) {
+    if (this.logTimeStamps.hasOwnProperty(message) && timestamp < this.logTimeStamps[message] + 10) {
         return false;
     }
     
