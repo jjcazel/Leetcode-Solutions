@@ -4,6 +4,7 @@
  * @return {Object|Array}
  */
 
+//O(N) time and O(N + D) space where n is the sum of keys in both objects and D is the depth of the call stack.
 function objDiff(obj1, obj2) {
     if (obj1 === obj2) return {};
     if (obj1 == null || obj2 == null) return [obj1, obj2];
