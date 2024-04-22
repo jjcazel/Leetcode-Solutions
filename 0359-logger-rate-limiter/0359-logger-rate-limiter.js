@@ -1,6 +1,6 @@
 
 function Logger() {
-    this.logTimeStamps = {};
+    this.timestampLog = {};
 };
 
 /** 
@@ -8,12 +8,13 @@ function Logger() {
  * @param {string} message
  * @return {boolean}
  */
-Logger.prototype.shouldPrintMessage = function (timestamp, message) {
-    if (this.logTimeStamps.hasOwnProperty(message) && timestamp < this.logTimeStamps[message] + 10) {
+//O(1) time and O(n) space 
+Logger.prototype.shouldPrintMessage = function(timestamp, message) {
+    if (this.timestampLog.hasOwnProperty(message) && timestamp < this.timestampLog[message] + 10) {
         return false;
     }
-    
-    this.logTimeStamps[message] = timestamp;
+
+    this.timestampLog[message] = timestamp;
     return true;
 };
 
