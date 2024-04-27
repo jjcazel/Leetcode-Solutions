@@ -11,18 +11,20 @@
  * @return {number}
  */
 const diameterOfBinaryTree = (root) => {
-  let maxDiameter = [0];
-  getMaxDiameter(root, maxDiameter);
-  return maxDiameter[0];
+  let maxDiameter = 0;
+
+  const getMaxDiameter = (root) => {
+    if (!root) return 0;
+
+    const leftPathCount = getMaxDiameter(root.left);
+    const rightPathCount = getMaxDiameter(root.right);
+
+    maxDiameter = Math.max(maxDiameter, leftPathCount + rightPathCount);
+
+    return Math.max(leftPathCount, rightPathCount) + 1;
+  }
+
+  getMaxDiameter(root);
+  return maxDiameter;
 };
 
-const getMaxDiameter = (root, maxDiameter) => {
-  if (!root) return 0;
-
-  const leftPathCount = getMaxDiameter(root.left, maxDiameter);
-  const rightPathCount = getMaxDiameter(root.right, maxDiameter);
-
-  maxDiameter[0] = Math.max(maxDiameter[0], leftPathCount + rightPathCount);
-
-  return Math.max(leftPathCount, rightPathCount) + 1;
-}
