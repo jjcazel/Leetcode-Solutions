@@ -10,21 +10,19 @@
  * @param {TreeNode} root
  * @return {number}
  */
-
- //O(n) time and O(h) avg space where n is the number of total nodes and h is the height of the tree
 const diameterOfBinaryTree = (root) => {
-  const maxDiameter = [0];
-  getDiameter(root, maxDiameter);
+  let maxDiameter = [0];
+  getMaxDiameter(root, maxDiameter);
   return maxDiameter[0];
 };
 
-function getDiameter(root, maxDiameter) {
+const getMaxDiameter = (root, maxDiameter) => {
   if (!root) return 0;
 
-  const leftPath = getDiameter(root.left, maxDiameter);
-  const rightPath = getDiameter(root.right, maxDiameter);
+  const leftPathCount = getMaxDiameter(root.left, maxDiameter);
+  const rightPathCount = getMaxDiameter(root.right, maxDiameter);
 
-  maxDiameter[0] = Math.max(maxDiameter[0], leftPath + rightPath);
+  maxDiameter[0] = Math.max(maxDiameter[0], leftPathCount + rightPathCount);
 
-  return Math.max(leftPath, rightPath) + 1;
+  return Math.max(leftPathCount, rightPathCount) + 1;
 }
