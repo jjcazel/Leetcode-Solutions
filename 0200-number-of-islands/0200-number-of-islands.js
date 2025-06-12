@@ -2,38 +2,34 @@
  * @param {character[][]} grid
  * @return {number}
  */
-const numIslands = (grid) => {
-    let numIslands = 0
-    let visited = new Set();
+var numIslands = function(grid) {
+    const visited = new Set();
+    let totalIslandCount = 0;
+
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[0].length; col++) {
-            if (isIsland(row, col, grid, visited)) {
-                numIslands++;
-            }
+            totalIslandCount += countIslands(grid, row, col, visited);
         }
     }
 
-    return numIslands;
+    return totalIslandCount;
 };
 
-const isIsland = (row, col, grid, visited) => {
-    const rowInbounds = row >= 0 && row < grid.length;
-    const colInbounds = col >= 0 && col < grid[0].length;
+const countIslands = (grid, row, col, visited) => {
+    const rowInbounds = 0 <= row && row < grid.length;
+    const colInbounds = 0 <= col && col < grid[0].length;
+    if (!rowInbounds || ! colInbounds) return false;
 
-    if (!rowInbounds || !colInbounds) return false;
-
-    if (grid[row][col] === "0") return false;
+    if (grid[row][col] === '0') return false;
 
     const position = row + ',' + col;
-    if (visited.has(position)) {
-        return false;
-    }
+    if (visited.has(position)) return false;
     visited.add(position);
 
-    isIsland(row + 1, col, grid, visited);
-    isIsland(row - 1, col, grid, visited);
-    isIsland(row, col + 1, grid, visited);
-    isIsland(row, col - 1, grid, visited);
+    countIslands(grid, row - 1, col, visited);
+    countIslands(grid, row + 1, col, visited);
+    countIslands(grid, row, col - 1, visited);
+    countIslands(grid, row, col + 1, visited);
 
-    return true; 
+    return true;
 }
